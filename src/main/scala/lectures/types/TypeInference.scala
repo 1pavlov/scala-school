@@ -15,5 +15,7 @@ object TypeInference extends App {
 
   print(result)
 
+  result
+
 }
 
