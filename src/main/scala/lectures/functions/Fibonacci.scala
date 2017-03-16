@@ -1,5 +1,7 @@
 package lectures.functions
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
   * Цель упражнения: вычислить 9 - е число Фибоначчи
   * Для этого раскомментируйте строчку в методе fibs и исправьте ошибку компиляции.
@@ -13,13 +15,12 @@ object Fibonacci extends App {
 
   // Task 2
   def fibs(num: Int): Int = {
-    if (num == 1) 1 else
-    if (num == 2) 1 else
-    fibs(num - 1) + fibs(num - 2)
+    if (num == 1) 1
+    else if (num == 2) 1
+    else fibs(num - 1) + fibs(num - 2)
   }
 
   println(fibs(9))
-  // println(fibs(1000))
 }
 
 /**
@@ -35,18 +36,13 @@ object Fibonacci extends App {
 object Fibonacci2 extends App {
 
   def fibs2(num: Int) =
-    if (num <= 3) Array(1, 1, 2)(num - 1)
-    else fibsImpl(num, Array(1, 1, 2))(num - 1)
+    if (num <= 3) ArrayBuffer(1, 1, 2)(num - 1)
+    else fibsImpl(num, ArrayBuffer(1, 1, 2, 3, 5, 8))(num - 1)
 
-  private def fibsImpl(num: Int, acc: Array[Int]): Array[Int] = {
-    if (num == 3) acc
-    else fibsImpl(num - 1, acc :+ acc.takeRight(2).sum)
+  private def fibsImpl(num: Int, acc: ArrayBuffer[BigInt]): ArrayBuffer[BigInt] = {
+    if (num > acc.length) fibsImpl(num - 1, acc)
+    acc += acc.takeRight(2).sum
   }
 
-  // println(fibs2(16))
-  println(fibs2(1000))
+  println(fibs2(16))
 }
-
-
-
-
