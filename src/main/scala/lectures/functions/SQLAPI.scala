@@ -37,11 +37,20 @@ class SQLAPI(resource :String) {
 
   }
 
-  private def logParameter[T](prm: T): T  = ???
+  private def logParameter[T](prm: T): T  = {
+    println(prm)
+    prm
+  }
 
   val connection = (resource: String) => Connection(resource)
 
-  def execute(sql: String): String = ??? // use resource from constructor
+  def execute(sql: String): String = {
+    val connect = (logParameter[String] _ andThen connection) (resource)
+    logParameter[String](sql)
+    val opened_connection = connect.open()
+
+    (opened_connection.execute _ andThen logParameter[String]) (sql)
+  }
 
 
   def openConnection(connection: Connection): (String) => String =
