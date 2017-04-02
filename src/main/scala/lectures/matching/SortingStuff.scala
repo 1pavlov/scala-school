@@ -77,14 +77,14 @@ object SortingStuff extends App {
   }
 
   private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = item match {
-    case watch@(_: Watches) if watch.cost > 1000 => stuffBox.copy(watches = watch :: stuffBox.watches)
-    case boots@(_: Boots) if boots.brand == "Adidas" || boots.brand == "Converse" => stuffBox.copy(boots = boots :: stuffBox.boots)
-    case book@(_: Book) if book.isInteresting => stuffBox.copy(books = book :: stuffBox.books)
-    case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
+    case it:Watches if it.cost > 1000 => stuffBox.copy(watches = it :: stuffBox.watches)
+    case it:Boots if it.brand == "Adidas" || it.brand == "Converse" => stuffBox.copy(boots = it :: stuffBox.boots)
+    case it:Book if it.isInteresting => stuffBox.copy(books = it :: stuffBox.books)
+    case it@_ => stuffBox.copy(junk = it :: stuffBox.junk)
   }
 
   def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
-    case StuffBox(_, _, _, junk) if junk.contains(Knife) => true
+    case _ if stuffBox.junk.contains(Knife) => true
     case _ => false
   }
 

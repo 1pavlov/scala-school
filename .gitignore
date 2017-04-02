@@ -30,7 +30,9 @@ target
 
 # test logs
 /catalina.home_IS_UNDEFINED
-.ensime_cache/
-ensime-langserver.log
+
+# logs
 pc.stdout.log
+ensime-langserver.log
+.ensime_cache/
 project/
