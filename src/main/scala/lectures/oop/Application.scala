@@ -18,27 +18,38 @@ import lectures.functions.SQLAPI
   * Допишите тесты в ApplicationTest
   *
   */
+
 trait UsefulService {
   def doSomeService(): Int
 }
 
 trait TestServiceImpl extends UsefulService {
+  self: SQLAPI =>
+
   private val sql = "do the SQL query and then count words"
-  def doSomeService() = ??? //execute(sql) //подсчитайте количество слов в результате execute
+
+  // Считает количество слов в результате execute
+  def doSomeService() = {
+    execute(sql).split(" ").length
+  }
 }
 
 trait ProductionServiceImpl extends UsefulService {
+  self: SQLAPI =>
+
   private val sql = "do the SQL query and than count 'a' sympols"
-  def doSomeService() = ??? //execute(sql) // подсчитайте сколько символов 'a' в полученной строке
+
+  // Считает количество символов 'a' в результате execute
+  def doSomeService() = {
+    execute(sql).count(_ == 'a')
+  }
 }
 
 class Application(isTestEnv: Boolean) {
-
   val usefulService : UsefulService = if (isTestEnv)
-   ??? //передайте "test db Resource" в качестве ресурсв в конструктор SQLAPI
+    new SQLAPI("test db Resource") with TestServiceImpl
   else
-   ??? //передайте "production Resource" в качестве ресурсв в конструктор SQLAPI
+    new SQLAPI("production Resource") with ProductionServiceImpl
 
   def doTheJob() = usefulService.doSomeService()
-
 }
