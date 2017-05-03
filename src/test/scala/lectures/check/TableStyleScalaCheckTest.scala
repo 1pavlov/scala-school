@@ -4,7 +4,6 @@ import org.scalatest.{OutcomeOf, Matchers, WordSpec}
 import org.scalatest.prop.PropertyChecks
 
 class Fraction(n: Int, d: Int) {
-
   require(d != 0)
   require(d != Integer.MIN_VALUE)
   require(n != Integer.MIN_VALUE)
