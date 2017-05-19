@@ -26,8 +26,19 @@ object LazySchedulerView {
       * @return - view
       */
     def lazySchedule(expirationTimeout: Long): SeqView[A, Seq[_]]  = {
-      val i = c.instant().plusMillis(expirationTimeout)
-      ???
+      val pumpkinDeadline = c.instant().plusMillis(expirationTimeout)
+      new SeqView[A, Seq[_]] {
+
+        override def iterator = underlying.iterator
+
+        override def length = underlying.length
+
+        override def apply(idx: Int) = underlying.apply(idx)
+
+        protected def underlying = if (isNotPumpkin) f else List.empty
+
+        private def isNotPumpkin: Boolean = pumpkinDeadline.isAfter(c.instant())
+      }
     }
   }
 }
@@ -39,9 +50,7 @@ object LazySchedulerViewExample extends App {
   val v = List(1, 2, 3, 56)
   val d = v.lazySchedule(1300)
 
-  print(d.length)
+  println("Length at start: " + d.length)
   Thread.sleep(1500)
-  print(d.length)
+  println("Length after pumpkin time: " + d.length)
 }
-
-
